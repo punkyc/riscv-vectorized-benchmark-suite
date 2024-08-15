@@ -134,8 +134,8 @@ void CumNormalInv_vector( FTYPE* u ,FTYPE* output ,unsigned long int gvl)
 
   // SECOND PART
   mask2  = _MM_VFGT_f64(x,zero,gvl); 
-  r1 = vU;
-  r1   = _MM_SUB_f64_MASK(r1,one,vU,mask2,gvl); //sub(vs2,vs1)
+  //r1 = vU;
+  r1   = _MM_SUB_f64_MASK(mask2,one,vU,gvl); //sub(vs2,vs1)
   Cons1 = _MM_LOG_f64(r1,gvl);
   r1 = _MM_VFSGNJN_f64(Cons1,Cons1,gvl);
   r1 = _MM_LOG_f64(r1,gvl);

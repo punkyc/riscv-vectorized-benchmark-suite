@@ -1,12 +1,12 @@
 #makefile
-GCC_TOOLCHAIN_DIR := /newlib/
+GCC_TOOLCHAIN_DIR := /home/chenying/compiler/riscv-gnu-toolchain/install14
 SYSROOT_DIR := $(GCC_TOOLCHAIN_DIR)/riscv64-unknown-elf
 
-LLVM := /llvm/build/
-SPIKE := spike
-PK := pk
+LLVM := /home/chenying/compiler/llvm-project/install
+SPIKE := /home/chenying/spike
+PK := /home/chenying/pk
 
-target = bin/rvv-test
+target = bin/rvv-test-vector
 
 serial:
 	${LLVM}/bin/clang++ --target=riscv64-unknown-elf -march=rv64gcv1p0 -menable-experimental-extensions --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -O2 -o $(target) src/pathfinder.cpp

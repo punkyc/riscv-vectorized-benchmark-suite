@@ -1,5 +1,12 @@
 #makefile
 
+GCC_TOOLCHAIN_DIR := /home/chenying/compiler/riscv-gnu-toolchain/install14
+SYSROOT_DIR := $(GCC_TOOLCHAIN_DIR)/riscv64-unknown-elf
+
+LLVM := /home/chenying/compiler/llvm-project/install
+SPIKE := /home/chenying/spike
+PK := /home/chenying/pk
+
 start:
 	mkdir -p bin; \
 	rm bin/*.*

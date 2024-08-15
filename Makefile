@@ -6,11 +6,8 @@ all: blackscholes swaptions streamcluster canneal particlefilter pathfinder jaco
 
 blackscholes:
 	cd _blackscholes; 	\
-	make start;			\
 	make vector; 		\
-	make serial; 		\
-	make host;			\
-	make copy;
+	make serial; 
 
 swaptions:
 	cd _swaptions; 		\

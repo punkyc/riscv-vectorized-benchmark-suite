@@ -197,7 +197,7 @@ void run_vector()
         dst = result;
 
        // unsigned long int gvl = __builtin_epi_vsetvl(cols, __epi_e32, __epi_m1);
-        unsigned long int gvl = vsetvl_e32m1(cols);  //PLCT
+        unsigned long int gvl = __riscv_vsetvl_e32m1(cols);
         _MMR_i32    xSrc_slideup;
         _MMR_i32    xSrc_slidedown;
         _MMR_i32    xSrc;
@@ -211,7 +211,7 @@ void run_vector()
             for(int n = 0; n < cols; n = n + gvl)
             {
                 // gvl = __builtin_epi_vsetvl(cols-n, __epi_e32, __epi_m1);
-                gvl = vsetvl_e32m1(cols-n); //PLCT
+                gvl = __riscv_vsetvl_e32m1(cols-n);
                 xNextrow = _MM_LOAD_i32(&dst[n],gvl);
 
                 xSrc = xNextrow;

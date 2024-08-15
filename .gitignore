@@ -1,0 +1,6 @@
+*.o
+*.log
+*.txt
+*.dump
+*-test-serial
+*-test-vector

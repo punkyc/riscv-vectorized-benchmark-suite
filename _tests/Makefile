@@ -1,17 +1,24 @@
 #makefile
 
+GCC_TOOLCHAIN_DIR := /home/chenying/compiler/riscv-gnu-toolchain/install14
+SYSROOT_DIR := $(GCC_TOOLCHAIN_DIR)/riscv64-unknown-elf
+
+LLVM := /home/chenying/compiler/llvm-project/install
+SPIKE := /home/chenying/spike
+PK := /home/chenying/pk
+
 start:
 	mkdir bin; \
 	rm bin/*.*
 
 serial:
-	${LLVM}/bin/clang++ -mepi -Wall --target=riscv64-unknown-elf -march=rv64g -O2 -c -o src/tests.o src/tests.cpp
-	${LLVM}/bin/clang++ -mepi -Wall --target=riscv64-unknown-elf -march=rv64g -O2 -o bin/tests_serial.exe src/tests_serial.o -lm
+	${LLVM}/bin/clang++  -Wall --target=riscv64-unknown-elf -march=rv64g -O2 --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -c -o src/tests.o src/tests.cpp
+	${LLVM}/bin/clang++  -Wall --target=riscv64-unknown-elf -march=rv64g -O2 --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -o bin/tests_serial.exe src/tests_serial.o -lm
 	rm src/*.o
 	${LLVM}/bin/llvm-objdump  -mattr=+m,+f,+d,+a,+c,+epi -ds  bin/tests_serial.exe > bin/tests_serial.dump
 vector:
-	${LLVM}/bin/clang++ -mepi -Wall --target=riscv64-unknown-elf -DUSE_RISCV_VECTOR -march=rv64g -O2 -c -o src/tests.o src/tests.cpp ; \
-	${LLVM}/bin/clang++ -mepi -Wall --target=riscv64-unknown-elf -DUSE_RISCV_VECTOR -march=rv64g -O2 -o bin/tests_vector.exe src/*.o -lm ; \
+	${LLVM}/bin/clang++  -Wall --target=riscv64-unknown-elf -DUSE_RISCV_VECTOR -march=rv64g -O2 --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -c -o src/tests.o src/tests.cpp ; \
+	${LLVM}/bin/clang++  -Wall --target=riscv64-unknown-elf -DUSE_RISCV_VECTOR -march=rv64g -O2 --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -o bin/tests_vector.exe src/*.o -lm ; \
 	rm src/*.o ; \
 	${LLVM}/bin/llvm-objdump  -mattr=+m,+f,+d,+a,+c,+epi -ds   bin/tests_vector.exe > bin/tests_vector.dump ;
 

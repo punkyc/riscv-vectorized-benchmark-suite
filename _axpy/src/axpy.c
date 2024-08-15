@@ -10,13 +10,13 @@ void axpy_intrinsics(double a, double *dx, double *dy, int n) {
   int i;
 
   // long gvl = __builtin_epi_vsetvl(n, __epi_e64, __epi_m1);
-  long gvl = vsetvl_e64m1(n); //PLCT
+  long gvl = __riscv_vsetvl_e64m1(n); 
   
   _MMR_f64 v_a = _MM_SET_f64(a, gvl);
   
   for (i = 0; i < n;) {
     // gvl = __builtin_epi_vsetvl(n - i, __epi_e64, __epi_m1);
-    gvl = vsetvl_e64m1(n - i); //PLCT
+    gvl = __riscv_vsetvl_e64m1(n - i);
 
     _MMR_f64 v_dx = _MM_LOAD_f64(&dx[i], gvl);
     _MMR_f64 v_dy = _MM_LOAD_f64(&dy[i], gvl);

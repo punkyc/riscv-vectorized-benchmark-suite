@@ -159,7 +159,7 @@ _MMR_f32 CNDF_SIMD  (_MMR_f32 xInput ,unsigned long int gvl)
   xLocal   = _MM_SUB_f32(xOne,xLocal,gvl);
   //xLocal   = _MM_NMSUB_f32(xLocal,xNPrimeofX,xOne,gvl);
 
-  xLocal   = _MM_SUB_f32_MASK(xLocal,xOne,xLocal,xMask,gvl); //sub(vs2,vs1)
+  xLocal   = _MM_SUB_f32_MASK(xMask, xOne,xLocal,gvl); //sub(vs2,vs1)
   return xLocal;
 }
 
@@ -443,7 +443,7 @@ int bs_thread(void *tid_ptr) {
     int end = start + (numOptions / nThreads);
 
     // unsigned long int gvl = __builtin_epi_vsetvl(end, __epi_e32, __epi_m1);
-    unsigned long int gvl = vsetvl_e32m1(end); //PLCT
+    unsigned long int gvl = __riscv_vsetvl_e32m1(end); //PLCT
     fptype* price;
     price = (fptype*)malloc(gvl*sizeof(fptype));
     //price = aligned_alloc(64, gvl*sizeof(fptype));
@@ -462,7 +462,7 @@ int bs_thread(void *tid_ptr) {
             // Calling main function to calculate option value based on Black & Scholes's
             // equation.
             // gvl = __builtin_epi_vsetvl(end-i, __epi_e32, __epi_m1);
-            gvl = vsetvl_e32m1(end-i); //PLCT
+            gvl = __riscv_vsetvl_e32m1(end-i); //PLCT
             BlkSchlsEqEuroNoDiv_vector( price, gvl, &(sptprice[i]), &(strike[i]),
                                 &(rate[i]), &(volatility[i]), &(otime[i]), &(otype[i])/*,&(otype_d[i])*/, 0,gvl);
             for (k=0; k<gvl; k++) {

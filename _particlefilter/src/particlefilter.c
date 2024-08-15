@@ -148,7 +148,7 @@ double randn(int * seed, int index){
 }
 
 #ifdef USE_RISCV_VECTOR
-inline _MMR_f64 randn_vector(long int * seed, int index ,unsigned long int gvl){
+static inline _MMR_f64 randn_vector(long int * seed, int index ,unsigned long int gvl){
     /*Box-Muller algorithm*/
     _MMR_f64    xU = randu_vector(seed,index,gvl);
     _MMR_f64    xV = randu_vector(seed,index,gvl);
@@ -495,7 +495,7 @@ void particleFilter(int * I, int IszX, int IszY, int Nfr, int * seed, int Nparti
             for(y = 0; y < countOnes; y++){
                 indX = roundDouble(arrayX[x]) + objxy[y*2 + 1];
                 indY = roundDouble(arrayY[x]) + objxy[y*2];
-                ind[x*countOnes + y] = fabs(indX*IszY*Nfr + indY*Nfr + k);
+                ind[x*countOnes + y] = abs(indX*IszY*Nfr + indY*Nfr + k);
                 if(ind[x*countOnes + y] >= max_size)
                     ind[x*countOnes + y] = 0;
             }
@@ -640,12 +640,12 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
         weights[x] = 1/((double)(Nparticles));
     }*/
     // unsigned long int gvl = __builtin_epi_vsetvl(Nparticles, __epi_e64, __epi_m1);
-    unsigned long int gvl = vsetvl_e64m1(Nparticles); //PLCT
+    unsigned long int gvl = __riscv_vsetvl_e64m1(Nparticles);
 
     _MMR_f64    xweights = _MM_SET_f64(1.0/((double)(Nparticles)),gvl);
     for(x = 0; x < Nparticles; x=x+gvl){
         // gvl     = __builtin_epi_vsetvl(Nparticles-x, __epi_e64, __epi_m1);
-        gvl = vsetvl_e64m1(Nparticles-x); //PLCT
+        gvl = __riscv_vsetvl_e64m1(Nparticles-x);
 
         _MM_STORE_f64(&weights[x],xweights,gvl);
     }
@@ -671,12 +671,12 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
     }
     */
     // gvl     = __builtin_epi_vsetvl(Nparticles, __epi_e64, __epi_m1);
-    gvl = vsetvl_e64m1(Nparticles); //PLCT
+    gvl = __riscv_vsetvl_e64m1(Nparticles);
     _MMR_f64    xArrayX = _MM_SET_f64(xe,gvl);
     _MMR_f64    xArrayY = _MM_SET_f64(ye,gvl);
     for(int i = 0; i < Nparticles; i=i+gvl){
        // gvl     = __builtin_epi_vsetvl(Nparticles-i, __epi_e64, __epi_m1);
-        gvl = vsetvl_e64m1(Nparticles-i); //PLCT
+        gvl = __riscv_vsetvl_e64m1(Nparticles-i);
         _MM_STORE_f64(&arrayX[i],xArrayX,gvl);
         _MM_STORE_f64(&arrayY[i],xArrayY,gvl);
     }
@@ -694,10 +694,10 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
         //draws sample from motion model (random walk). The only prior information
         //is that the object moves 2x as fast as in the y direction
         // gvl     = __builtin_epi_vsetvl(Nparticles, __epi_e64, __epi_m1);
-        gvl = vsetvl_e64m1(Nparticles); //PLCT 
+        gvl = __riscv_vsetvl_e64m1(Nparticles);
         for(x = 0; x < Nparticles; x=x+gvl){
         // gvl     = __builtin_epi_vsetvl(Nparticles-x, __epi_e64, __epi_m1);
-        gvl = vsetvl_e64m1(Nparticles-x); //PLCT
+        gvl = __riscv_vsetvl_e64m1(Nparticles-x);
             xArrayX = _MM_LOAD_f64(&arrayX[x],gvl);
             FENCE();
             xAux = randn_vector(seed_64, x,gvl);
@@ -737,7 +737,7 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
             for(y = 0; y < countOnes; y++){
                 indX = roundDouble(arrayX[x]) + objxy[y*2 + 1];
                 indY = roundDouble(arrayY[x]) + objxy[y*2];
-                ind[x*countOnes + y] = fabs(indX*IszY*Nfr + indY*Nfr + k);
+                ind[x*countOnes + y] = abs(indX*IszY*Nfr + indY*Nfr + k);
                 if(ind[x*countOnes + y] >= max_size)
                     ind[x*countOnes + y] = 0;
             }
@@ -817,10 +817,10 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
         long int * locations = (long int *)malloc(sizeof(long int)*Nparticles);
         long int valid;
         // gvl     = __builtin_epi_vsetvl(Nparticles, __epi_e64, __epi_m1);
-        gvl = vsetvl_e64m1(Nparticles); //PLCT
+        gvl = __riscv_vsetvl_e64m1(Nparticles);
         for(i = 0; i < Nparticles; i=i+gvl){
            //  gvl     = __builtin_epi_vsetvl(Nparticles-i, __epi_e64, __epi_m1);
-            gvl = vsetvl_e64m1(Nparticles-i); //PLCT
+            gvl = __riscv_vsetvl_e64m1(Nparticles-i);
             vector_complete = 0;
             xMask   = _MM_SET_i64(0,gvl);
             xArray  = _MM_SET_i64(Nparticles-1,gvl);
@@ -828,13 +828,13 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
             for(j = 0; j < Nparticles; j++){    
                 xCDF = _MM_SET_f64(CDF[j],gvl);
                 xComp = _MM_VFGE_f64(xCDF,xU,gvl);
-                xComp = _MM_CAST_i1_i64(_MM_XOR_i64(_MM_CAST_i64_i1(xComp),xMask,gvl));
+                xComp = _MM_CAST_i1_i64(_MM_XOR_i64(_MM_CAST_i64_i1(xComp, gvl),xMask,gvl), gvl);
                 valid = _MM_VMFIRST_i64(xComp,gvl);
                 if(valid != -1)
                 {
                     xArray = _MM_MERGE_i64(xArray,_MM_SET_i64(j,gvl),xComp,gvl);
-                    xMask = _MM_OR_i64(_MM_CAST_i64_i1(xComp),xMask,gvl);
-                    vector_complete = _MM_VMPOPC_i64(_MM_CAST_i1_i64(xMask),gvl);
+                    xMask = _MM_OR_i64(_MM_CAST_i64_i1(xComp, gvl),xMask,gvl);
+                    vector_complete = _MM_VMPOPC_i64(_MM_CAST_i1_i64(xMask, gvl),gvl);
                 }
                 if(vector_complete == gvl){ break; }
                 //FENCE();
