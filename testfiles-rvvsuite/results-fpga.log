@@ -1,0 +1,128 @@
+Running _axpy: _axpy/rvv-test-serial with input parameters: 256
+init_vector time: 0.233291
+doing reference axpy
+axpy_reference time: 0.104521
+doing vector axpy
+axpy_intrinsics time: 0.138791
+done
+Result ok !!!
+Running _axpy: _axpy/rvv-test-vector with input parameters: 256
+init_vector time: 0.228277
+doing reference axpy
+axpy_reference time: 0.103824
+doing vector axpy
+axpy_intrinsics time: 0.138326
+done
+Result ok !!!
+Running _blackscholes: _blackscholes/rvv-test-serial with input parameters: 1 ./input/in_64K.input ./prices.txt
+PARSEC Benchmark Suite
+ERROR: Unable to open file `./_blackscholes/input/in_64K.input'.
+Running _blackscholes: _blackscholes/rvv-test-vector with input parameters: 1 ./input/in_64K.input ./prices.txt
+PARSEC Benchmark Suite
+ERROR: Unable to open file `./_blackscholes/input/in_64K.input'.
+Running _canneal: _canneal/rvv-test-serial with input parameters: 1 100 300 input/100.nets 8
+PARSEC Benchmark Suite
+Threadcount: 1
+100 swaps per temperature step
+start temperature: 300
+netlist filename: input/100.nets
+number of temperature steps: 8
+locs created
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Running _canneal: _canneal/rvv-test-vector with input parameters: 1 100 300 input/100.nets 8
+PARSEC Benchmark Suite
+Threadcount: 1
+100 swaps per temperature step
+start temperature: 300
+netlist filename: input/100.nets
+number of temperature steps: 8
+locs created
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Running _particlefilter: _particlefilter/rvv-test-serial with input parameters: -x 128 -y 128 -z 2 -np 256
+VIDEO SEQUENCE TOOK 0.756563
+TIME TO GET NEIGHBORS TOOK: 0.000389
+TIME TO GET WEIGHTSTOOK: 0.000439
+TIME TO SET ARRAYS TOOK: 0.001527
+TIME TO SET ERROR TOOK: 0.003331
+TIME TO GET LIKELIHOODS TOOK: 0.020322
+TIME TO GET EXP TOOK: 0.001138
+TIME TO SUM WEIGHTS TOOK: 0.000554
+TIME TO NORMALIZE WEIGHTS TOOK: 0.000407
+TIME TO MOVE OBJECT TOOK: 0.000489
+XE: 64.291691
+YE: 64.332534
+0.442338
+TIME TO CALC CUM SUM TOOK: 0.001310
+TIME TO CALC U TOOK: 0.000428
+TIME TO CALC NEW ARRAY X AND Y TOOK: 0.005201
+TIME TO RESET WEIGHTS TOOK: 0.000581
+PARTICLE FILTER TOOK 0.037910
+ENTIRE PROGRAM TOOK 0.794473
+Running _particlefilter: _particlefilter/rvv-test-vector with input parameters: -x 128 -y 128 -z 2 -np 256
+VIDEO SEQUENCE TOOK 0.288199
+TIME TO GET NEIGHBORS TOOK: 0.000091
+TIME TO GET WEIGHTSTOOK: 0.000911
+TIME TO SET ARRAYS TOOK: 0.001639
+TIME TO SET ERROR TOOK: 0.004669
+TIME TO GET LIKELIHOODS TOOK: 0.020572
+TIME TO GET EXP TOOK: 0.000869
+TIME TO SUM WEIGHTS TOOK: 0.000818
+TIME TO NORMALIZE WEIGHTS TOOK: 0.000420
+TIME TO MOVE OBJECT TOOK: 0.000487
+XE: 3297132860103775744.000000
+YE: -691613287101521199104.000000
+691621146279137771520.000000
+TIME TO CALC CUM SUM TOOK: 0.001494
+TIME TO CALC U TOOK: 0.000434
+TIME TO CALC NEW ARRAY X AND Y TOOK: 0.006863
+TIME TO RESET WEIGHTS TOOK: 0.000599
+PARTICLE FILTER TOOK 0.166447
+ENTIRE PROGRAM TOOK 0.454646
+Running _pathfinder: _pathfinder/rvv-test-serial with input parameters : 32 32 out
+cols: 32 rows: 32 
+TIME TO INIT DATA: 0.002488
+NUMBER OF RUNS: 100
+TIME TO FIND THE SMALLEST PATH: 0.034583
+52 51 50 52 58 53 54 57 48 56 56 61 61 61 61 54 51 52 56 51 47 49 52 51 54 52 58 57 52 56 55 53 Running _pathfinder: _pathfinder/rvv-test-vector with input parameters : 32 32 out
+cols: 32 rows: 32 
+TIME TO INIT DATA: 0.002446
+NUMBER OF RUNS VECTOR: 100
+TIME TO FIND THE SMALLEST PATH: 0.054944
+52 51 50 52 58 53 54 57 48 56 56 61 61 61 61 54 51 52 56 51 47 49 52 51 54 52 58 57 52 56 55 53 Running _streamcluster: _streamcluster/rvv-test-serial with input parameters :3 10 128 128 128 10 none output.txt 1
+PARSEC Benchmark Suite
+read 128 points
+error opening output.txt
+Running _streamcluster: _streamcluster/rvv-test-vector with input parameters :3 10 128 128 128 10 none output.txt 1
+PARSEC Benchmark Suite
+read 128 points
+error opening output.txt
+Running _swaptions: _swaptions/rvv-test-serial with input parameters: -ns 8 -sm 512 -nt 1
+PARSEC Benchmark Suite
+Number of Simulations: 512,  Number of threads: 1 Number of swaptions: 8
+
+
+Swaption Pricing Routine took 1.35490200 secs   
+Swaption 0: [SwaptionPrice: 6.9370640003 StdError: 0.0058775152] 
+Swaption 1: [SwaptionPrice: 3.2424260484 StdError: 0.0038255541] 
+Swaption 2: [SwaptionPrice: 0.8557351919 StdError: 0.0014831329] 
+Swaption 3: [SwaptionPrice: 6.4889976869 StdError: 0.0073048522] 
+Swaption 4: [SwaptionPrice: 79.8347859223 StdError: 0.0838702525] 
+Swaption 5: [SwaptionPrice: 6.8578872170 StdError: 0.0109132710] 
+Swaption 6: [SwaptionPrice: 81.2885095203 StdError: 0.0736149528] 
+Swaption 7: [SwaptionPrice: 3.0578064682 StdError: 0.0028249069] 
+Running _swaptions: _swaptions/rvv-test-vector with input parameters: -ns 8 -sm 512 -nt 1
+PARSEC Benchmark Suite
+Number of Simulations: 512,  Number of threads: 1 Number of swaptions: 8
+
+
+Swaption Pricing Routine took 2.02196400 secs   
+Swaption 0: [SwaptionPrice: 1240999255521395692957821727503831559736508802606716420096.0000000000 StdError: nan] 
+Swaption 1: [SwaptionPrice: 161170452324032901315470940010407002112.0000000000 StdError: 1303124758720484882141952344064.0000000000] 
+Swaption 2: [SwaptionPrice: 372933253290911386611720304514497394156448572027911012352.0000000000 StdError: nan] 
+Swaption 3: [SwaptionPrice: 1213112818647305133767404018649508057034876897292619612160.0000000000 StdError: nan] 
+Swaption 4: [SwaptionPrice: 3200616986964127768441089424800127909888.0000000000 StdError: nan] 
+Swaption 5: [SwaptionPrice: 313679450368890259250359676455203373056.0000000000 StdError: nan] 
+Swaption 6: [SwaptionPrice: 12182589172286196186407761975380060538028950441035162451968.0000000000 StdError: nan] 
+Swaption 7: [SwaptionPrice: 684177673072283123607989582964304478362162011214297694208.0000000000 StdError: 2879782512195688586933469126741863159512713658368.0000000000] 
